@@ -1,7 +1,18 @@
 
 
-import test, { expect, Locator, Page } from "@playwright/test";
+import { expect, Locator, Page } from "@playwright/test";
 import { ELEMENTS } from './Locators/elements'
+import { test as base } from '@playwright/test'
+
+
+export const test = base.extend<{ loginPage: LoginPage }>({
+    loginPage: async ({ page }, use) => {
+        const paginaLogin = new LoginPage(page);
+        await paginaLogin.visitar();
+        await use(paginaLogin);
+
+    }
+});
 
 class LoginPage {
 
