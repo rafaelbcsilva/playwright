@@ -15,7 +15,7 @@ export const test = base.extend<{ loginPage: LoginPage }>({
 
 class LoginPage {
 
-    private readonly page: Page;
+    private readonly page: Page
     private readonly buttonLogin: Locator;
     private readonly fieldEmail: Locator;
     private readonly fieldSenha: Locator;
