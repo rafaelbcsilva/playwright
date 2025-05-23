@@ -1,7 +1,6 @@
 
 
 import { expect, Locator, Page } from "@playwright/test";
-import { ELEMENTS } from './Locators/elements'
 import { test as base } from '@playwright/test'
 
 
@@ -17,23 +16,29 @@ export const test = base.extend<{ loginPage: LoginPage }>({
 class LoginPage {
 
     private readonly page: Page;
-    private readonly el: typeof ELEMENTS
+    private readonly buttonLogin: Locator;
+    private readonly fieldEmail: Locator;
+    private readonly fieldSenha: Locator;
+    private readonly buttonAcessarConta: Locator;
 
     constructor(page: Page) {
         this.page = page;
-        this.el = ELEMENTS;
+        this.buttonLogin = page.getByTestId('botao-login');
+        this.fieldEmail = page.getByTestId('input-email');
+        this.fieldSenha = page.getByTestId('input-senha');
+        this.buttonAcessarConta = page.getByTestId('botao-acessar-conta');
 
     }
     async visitar() {
         await this.page.goto('/');
-        await this.page.getByTestId(this.el.buttonLogin).click();
+        await this.buttonLogin.click();
         await expect(this.page).toHaveURL('/auth/login');
     }
     async fazerLogin(email: string, senha: string) {
-        await this.page.getByTestId(this.el.buttonLogin).click();
-        await this.page.getByTestId(this.el.fieldEmail).fill(email);
-        await this.page.getByTestId(this.el.fieldSenha).fill(senha);
-        await this.page.getByTestId(this.el.buttonAcessarConta).click();
+        await this.buttonLogin.click();
+        await this.fieldEmail.fill(email);
+        await this.fieldSenha.fill(senha);
+        await this.buttonAcessarConta.click();
     }
     async loginFeitoComSucesso() {
         await expect(this.page).toHaveURL('/home');
